@@ -1,0 +1,26 @@
+Source: xiaoming-music
+Section: sound
+Priority: optional
+Maintainer: lixiang <kobe24_lixiang@126.com>
+XSBC-Original-Maintainer: lixiang <kobe24_lixiang@126.com>
+Uploaders: lixiang <kobe24_lixiang@126.com>
+Build-Depends: debhelper (>= 11),
+               qtbase5-dev (>= 5.1),
+               qt5-qmake,
+               qtscript5-dev,
+               qttools5-dev-tools,
+               libmpv-dev,
+Standards-Version: 4.1.5
+Homepage: https://github.com/eightplus/xiaoming-music
+Vcs-Git: https://github.com/eightplus/xiaoming-music.git
+Vcs-Browser: https://github.com/eightplus/xiaoming-music
+
+Package: xiaoming-music
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Description: Music player using libmpv-dev.
+ Music Player front-end based on Qt5, with basic features like playing
+ audios to more advanced features.
+ It supports both x86 and ARM platform, and supports most of the
+ audio formats.

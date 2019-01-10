@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=Xiaoming Music
+Name[zh_CN]=小明音乐
+Comment=musci player
+Comment[zh_CN]=小明音乐
+GenericName=Xiaoming Music
+GenericName[zh_CN]=小明音乐
+Exec=xiaoming-music %U
+Icon=xiaoming-music
+Terminal=false
+MimeType=audio/ac3;audio/mp4;audio/mpeg;audio/vnd.rn-realaudio;audio/vorbis;audio/x-adpcm;audio/x-matroska;audio/x-mp2;audio/x-mp3;audio/x-ms-wma;audio/x-vorbis;audio/x-wav;audio/mpegurl;audio/x-mpegurl;audio/x-pn-realaudio;audio/x-scpls;audio/aac;audio/flac;audio/ogg;
+Type=Application
+Categories=AudioVideo;Audio;Musci;Player;
+Keywords=player;media;audio;music;
+X-Ayatana-Desktop-Shortcuts=Screen;Window
