@@ -20,11 +20,15 @@
 #include "mainwindow.h"
 #include "musicmanager.h"
 #include "global.h"
+
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setOrganizationName("eightplus");
+    a.setApplicationName("xiaoming-music");
+    a.setApplicationVersion("0.0.1");
 
     MusicManager manager;
     MainWindow w;

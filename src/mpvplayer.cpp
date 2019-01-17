@@ -324,7 +324,15 @@ void MpvPlayer::onMpvApiEvents()
         event = mpv_wait_event(m_mpvHandle, 0);
     }
 
+    /*while (1) {
+        mpv_event *event = mpv_wait_event(m_mpvHandle, -1);
+        qDebug() << "Got event: " << event->event_id;
+        if (event->event_id == MPV_EVENT_SHUTDOWN)
+            break;
+    }*/
+
     while (event && event->event_id != MPV_EVENT_NONE) {
+        //printf("event: %s\n", mpv_event_name(event->event_id));
         switch (event->event_id)
         {
         case MPV_EVENT_FILE_LOADED://文件加载后会触发该信号,即执行了mpv_command::loadfile之后
@@ -347,7 +355,7 @@ void MpvPlayer::onMpvApiEvents()
         {
             mpv_event_property *property = (mpv_event_property *)event->data;
             if (strcmp(property->name, "playback-time") == 0) {
-                if (property->format == MPV_FORMAT_DOUBLE) {
+                if (property->format == MPV_FORMAT_DOUBLE) {//MPV_FORMAT_INT64
                     double time = *(double *)property->data;
                     m_position = (qint64)(time*1000.0);
                     emit positionChanged(m_position - m_startPosition);
@@ -373,6 +381,8 @@ void MpvPlayer::onMpvApiEvents()
                 emit musicLoadFailed();
             }
             break;
+//        case MPV_EVENT_SHUTDOWN:
+//            break;
         default:
             break;
         };

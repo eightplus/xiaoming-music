@@ -50,5 +50,6 @@ void MusicManager::setMainWindow(MainWindow *mainWindow)
 void MusicManager::run()
 {
     m_mainWindow->initPlayer();
+    m_mainWindow->initAnalysiserModule();
     m_mainWindow->show();
 }

@@ -21,9 +21,12 @@
 #include "mpvplayer.h"
 #include "global.h"
 #include "preferences.h"
+#include "analysisermodule.h"
 
+#include <QApplication>
 #include <QPushButton>
 #include <QHBoxLayout>
+#include <QFileInfo>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -87,9 +90,27 @@ void MainWindow::initPlayer()
     m_mpvPlayer->setMute(false);
     m_mpvPlayer->initEngineAndloadMusic("/home/lixiang/970_给我一个吻.mp3");
 
+
     //qDebug() << "m_version=" << globalInstance->preferences()->m_version;
+
+//    QString &&suffix = QFileInfo("/home/lixiang/970_给我一个吻.mp3").suffix().toLower();
+//    if(suffix=="mp3") {
+
+//    }
 }
 
+void MainWindow::initAnalysiserModule()
+{
+    AnalysiserModule *analysiserModule = globalInstance->analysiserModule();
+    analysiserModule->initMusicAnalysiser();
+
+    // test
+//    qApp->processEvents();
+    QFileInfo fileInfo("/home/lixiang/970_给我一个吻.mp3");
+    if(globalInstance->isRequiredAudioFile(fileInfo.suffix().toLower())) {
+        analysiserModule->analysisMusicFile(fileInfo);
+    }
+}
 
 void MainWindow::onMusicLoadSuccess()
 {

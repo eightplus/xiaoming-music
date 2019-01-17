@@ -17,33 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef _MUSICMETA_H
+#define _MUSICMETA_H
 
-#include <QMainWindow>
+#include <QObject>
+#include <QString>
+#include <QDateTime>
 
-class QPushButton;
-class MpvPlayer;
-
-class MainWindow : public QMainWindow
+class MusicMeta
 {
-    Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    QString fileName;//名称
+    QString filePath;//路径
+    QString album;//专辑
+    QString artist;//艺术家
+    quint32 bitRate;//比特率 Kbps
+    QDateTime dateAdded;//添加日期
+    QDateTime dateModified;//修改日期
+    QDateTime dateLastPlayed;//上次播放时间
+    QString fileType;//文件类型
+    qint64 duration;//时长
+    QString timeDuration;
+    quint64 size;//大小
+    qint64 startPosition;//播放位置
 
-    void initPlayer();
-    void initAnalysiserModule();
-    void onMusicLoadSuccess();
-
-private:
-    QWidget *m_centralWidget = nullptr;
-    QPushButton *m_playBtn = nullptr;
-    QPushButton *m_stopBtn = nullptr;
-    QPushButton *m_prevBtn = nullptr;
-    QPushButton *m_nextBtn = nullptr;
-    MpvPlayer *m_mpvPlayer = nullptr;
+    bool invalid = false;
 };
 
-#endif // MAINWINDOW_H
+Q_DECLARE_METATYPE(MusicMeta)
+
+#endif // _MUSICMETA_H

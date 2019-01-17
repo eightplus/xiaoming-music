@@ -17,33 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef MUSIC_ANALYSISER_H
+#define MUSIC_ANALYSISER_H
 
-#include <QMainWindow>
+#include <QObject>
 
-class QPushButton;
-class MpvPlayer;
+#include "utils.h"
 
-class MainWindow : public QMainWindow
+struct AVDictionary;
+
+class MusicMeta;
+
+class MusicAnalysiser : public QObject
 {
     Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit MusicAnalysiser(QObject *parent = 0);
+    ~MusicAnalysiser();
 
-    void initPlayer();
-    void initAnalysiserModule();
-    void onMusicLoadSuccess();
-
-private:
-    QWidget *m_centralWidget = nullptr;
-    QPushButton *m_playBtn = nullptr;
-    QPushButton *m_stopBtn = nullptr;
-    QPushButton *m_prevBtn = nullptr;
-    QPushButton *m_nextBtn = nullptr;
-    MpvPlayer *m_mpvPlayer = nullptr;
+    bool doAnalysis(MusicMeta &meta);
+    void setKeyValue(AVDictionary *dict, const char *key, MusicMeta &meta);
 };
 
-#endif // MAINWINDOW_H
+#endif // MUSIC_ANALYSISER_H

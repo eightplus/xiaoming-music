@@ -20,16 +20,30 @@
 #include "global.h"
 #include "preferences.h"
 #include "mainwindow.h"
+#include "analysisermodule.h"
 
+#include <QThread>
 #include <QDebug>
 
 Global *Global::m_instance = nullptr;
 
 Global::Global(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+  m_audioSuffixs(QStringList()),
+  m_audioiSuffixsDescription(QStringList())
 {
     qDebug() << "Global.....";
+
+    initSizeFactor();
+    initMusicFileType();
+
+//    qRegisterMetaType<MusicMesa>("MusicMesa");
+
     m_preferences = new Preferences;
+    m_analysiserModule = new AnalysiserModule;
+    m_analysisThread = new QThread(this);
+    m_analysiserModule->moveToThread(m_analysisThread);
+    m_analysisThread->start();
 }
 
 Global::~Global()
@@ -37,16 +51,16 @@ Global::~Global()
     qDebug() << "~Global.....";
     delete m_preferences;
     m_preferences = 0;
+
+    m_analysisThread->quit();
+    m_analysisThread->wait();
+
+    delete m_analysiserModule;
 }
 
 Global *Global::instance()
 {
     return m_instance;
-}
-
-Preferences *Global::preferences() const
-{
-    return m_preferences;
 }
 
 void Global::initial(QObject *parent)
@@ -64,4 +78,66 @@ QWidget *Global::mainWindow() const
 void Global::setMainWindow(MainWindow *mainWindow)
 {
     m_mainWindow = mainWindow;
+}
+
+void Global::initSizeFactor()
+{
+    m_sizeFactor[Byte] = "Byte";
+    m_sizeFactor[KiloByte] = "KB";//Kib
+    m_sizeFactor[MegaByte] = "MB";//Mib
+    m_sizeFactor[GigaByte] = "GB";//Gib
+    m_sizeFactor[TeraByte] = "TB";//Tib
+}
+
+void Global::initMusicFileType()
+{
+    m_audioSuffixs<<"mp3"
+             <<"m4a"
+             <<"wav"
+             <<"flac"
+             <<"ape"
+             <<"ogg"
+             <<"oga"
+             <<"thd"
+             <<"mka"
+             <<"aac"
+             <<"wma"
+             <<"ra"
+             <<"dts"
+             <<"opus"
+             <<"ac3";
+
+    m_audioiSuffixsDescription<<"MPEG Audio Layer III (mp3)"
+                       <<"MPEG-4 Part 14 (m4a)"
+                       <<"Waveform Audio File Format (wav)"
+                       <<"Free Lossless Audio Codec (flac)"
+                       <<"Monkey's Audio (ape)"
+                       <<"Ogg Vorbis Audio (ogg)"
+                       <<"Ogg Vorbis Audio (oga)"
+                       <<"Total Harmonic Distortion (thd)"
+                       <<"Matroska (mka)"
+                       <<"Advanced Audio Coding (aac)"
+                       <<"Windows Media Audio (wma)"
+                       <<"Real Audio (ra)"
+                       <<"DTS Audio Codec (dts)"
+                       <<"Opus Audio Codec (opus)"
+                       <<"Dolby Surround Audio Coding-3 (ac3)";
+
+}
+
+QString Global::fileTypeDescription(const QString &suffix) const
+{
+
+    int index = m_audioSuffixs.indexOf(suffix.toLower());
+    return index == -1? QString() : m_audioiSuffixsDescription.at(index);
+}
+
+QString Global::byteToString(qreal size)
+{
+    int index = Byte;
+    while (size > 1024.0 && index < SizeInvalid) {
+        size /= 1024.0;
+        index++;
+    }
+    return QString::number(size, 'f', 2) + " " + m_sizeFactor[index];
 }

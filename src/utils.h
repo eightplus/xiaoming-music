@@ -17,33 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef _UTILS_H_
+#define _UTILS_H_
 
-#include <QMainWindow>
+#include <QString>
+#include <QDateTime>
 
-class QPushButton;
-class MpvPlayer;
-
-class MainWindow : public QMainWindow
+class Utils
 {
-    Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    static QString dateTimeToString(const QDateTime &dateTime)
+    {
+        return dateTime.toString("yyyy-MM-dd AP hh:mm");
+    }
 
-    void initPlayer();
-    void initAnalysiserModule();
-    void onMusicLoadSuccess();
-
-private:
-    QWidget *m_centralWidget = nullptr;
-    QPushButton *m_playBtn = nullptr;
-    QPushButton *m_stopBtn = nullptr;
-    QPushButton *m_prevBtn = nullptr;
-    QPushButton *m_nextBtn = nullptr;
-    MpvPlayer *m_mpvPlayer = nullptr;
+    static QString msecondToSecondString(const qint64 &msecond)
+    {
+        qint64 second = msecond/1000;
+        QString text = QString::number(second%60);
+        return text.length() == 1 ? QString::number(second/60)+":0"+text: QString::number(second/60)+":"+text;
+    }
 };
 
-#endif // MAINWINDOW_H
+#endif // _UTILS_H_

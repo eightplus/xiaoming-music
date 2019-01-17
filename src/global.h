@@ -24,8 +24,19 @@
 #include <QString>
 
 class Preferences;
+class AnalysiserModule;
 
 #define globalInstance (Global::instance())
+
+#define KILOBYTE_FACTOR 1000.0
+#define MEGABYTE_FACTOR (1000.0 * 1000.0)
+#define GIGABYTE_FACTOR (1000.0 * 1000.0 * 1000.0)
+#define TERABYTE_FACTOR (1000.0 * 1000.0 * 1000.0 * 1000.0)
+
+#define KIBIBYTE_FACTOR 1024.0
+#define MEBIBYTE_FACTOR (1024.0 * 1024.0)
+#define GIBIBYTE_FACTOR (1024.0 * 1024.0 * 1024.0)
+#define TEBIBYTE_FACTOR (1024.0 * 1024.0 * 1024.0 * 10242.0)
 
 class MainWindow;
 
@@ -34,6 +45,16 @@ class Global : public QObject
     Q_OBJECT
 
 public:
+    enum SizeFactor
+    {
+        Byte,
+        KiloByte,
+        MegaByte,
+        GigaByte,
+        TeraByte,
+        SizeInvalid
+    };
+
     explicit Global(QObject *parent = 0);
     ~Global();
 
@@ -43,12 +64,24 @@ public:
     QWidget *mainWindow() const;
     void setMainWindow(MainWindow *mainWindow);
 
-    Preferences *preferences() const;
+    Preferences *preferences() const { return m_preferences; }
+    AnalysiserModule *analysiserModule() { return m_analysiserModule; }
+
+    void initSizeFactor();
+    void initMusicFileType();
+    bool isRequiredAudioFile(const QString &suffix) const { return m_audioSuffixs.contains(suffix); }
+    QString fileTypeDescription(const QString &suffix) const;
+    QString byteToString(qreal size);
 
 private:
     static Global *m_instance;
     MainWindow *m_mainWindow = nullptr;
     Preferences *m_preferences = nullptr;
+    AnalysiserModule *m_analysiserModule = nullptr;
+    QThread *m_analysisThread = nullptr;
+    QString m_sizeFactor[SizeInvalid];
+    QStringList m_audioSuffixs;
+    QStringList m_audioiSuffixsDescription;
 };
 
 #endif // _GLOBAL_H

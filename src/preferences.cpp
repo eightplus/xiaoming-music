@@ -39,9 +39,6 @@ Preferences::Preferences()
 Preferences::~Preferences()
 {
     saveSettings();
-
-    qDebug() << "m_volume=" << m_volume;
-
     delete m_settings;
 }
 

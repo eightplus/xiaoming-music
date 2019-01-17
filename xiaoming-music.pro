@@ -24,7 +24,7 @@ QMAKE_CFLAGS   *= $(shell dpkg-buildflags --get CFLAGS)
 QMAKE_CXXFLAGS *= $(shell dpkg-buildflags --get CXXFLAGS)
 QMAKE_LFLAGS   *= $(shell dpkg-buildflags --get LDFLAGS)
 
-LIBS += -lmpv
+LIBS += -lmpv -lavformat -lavutil -lavcodec
 
 isEqual(QT_MAJOR_VERSION, 5) {
     QT += core gui widgets xml network
@@ -41,10 +41,18 @@ SOURCES += src/main.cpp\
     src/mpvplayer.cpp \
     src/global.cpp \
     src/preferences.cpp \
-    src/musicmanager.cpp
+    src/musicmanager.cpp \
+    src/analysisermodule.cpp \
+    src/musicmeta.cpp \
+    src/musicanalysiser.cpp \
+    src/utils.cpp
 
 HEADERS  += src/mainwindow.h \
     src/mpvplayer.h \
     src/global.h \
     src/preferences.h \
-    src/musicmanager.h
+    src/musicmanager.h \
+    src/analysisermodule.h \
+    src/musicmeta.h \
+    src/musicanalysiser.h \
+    src/utils.h
