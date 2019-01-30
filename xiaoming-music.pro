@@ -45,7 +45,11 @@ SOURCES += src/main.cpp\
     src/analysisermodule.cpp \
     src/musicmeta.cpp \
     src/musicanalysiser.cpp \
-    src/utils.cpp
+    src/utils.cpp \
+    src/lyricmodule.cpp \
+    src/lyricbaseworker.cpp \
+    src/lyricneteaseworker.cpp \
+    src/lyrickugouworker.cpp
 
 HEADERS  += src/mainwindow.h \
     src/mpvplayer.h \
@@ -55,4 +59,8 @@ HEADERS  += src/mainwindow.h \
     src/analysisermodule.h \
     src/musicmeta.h \
     src/musicanalysiser.h \
-    src/utils.h
+    src/utils.h \
+    src/lyricmodule.h \
+    src/lyricbaseworker.h \
+    src/lyricneteaseworker.h \
+    src/lyrickugouworker.h

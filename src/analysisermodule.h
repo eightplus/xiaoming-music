@@ -26,6 +26,7 @@
 #include "utils.h"
 
 class MusicAnalysiser;
+class MusicMeta;
 
 class AnalysiserModule : public QObject
 {
@@ -35,7 +36,7 @@ public:
     ~AnalysiserModule();
 
     void initMusicAnalysiser();
-    void analysisMusicFile(const QFileInfo &fileInfo);
+    void analysisMusicFile(const QFileInfo &fileInfo, MusicMeta &meta);
 
 private:
     MusicAnalysiser *m_analysiser = nullptr;

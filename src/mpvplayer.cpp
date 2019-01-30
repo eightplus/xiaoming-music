@@ -113,7 +113,7 @@ void MpvPlayer::resetParameters()
     }
     const char *arguments[]={"stop"};
     mpv_command(m_mpvHandle, arguments);
-    qDebug() << "call setState 111";
+//    qDebug() << "call setState 111";
     setState(Stopped);
 
     m_filePath.clear();
@@ -170,7 +170,7 @@ void MpvPlayer::play()
 
     int flag = 0;
     mpv_set_property(m_mpvHandle, "pause", MPV_FORMAT_FLAG, &flag);
-    qDebug() << "call setState 333";
+//    qDebug() << "call setState 333";
     setState(Playing);
 }
 
@@ -200,7 +200,7 @@ void MpvPlayer::stop()
     m_position = m_startPosition;
 
     emit positionChanged(0);
-    qDebug() << "call setState 222";
+//    qDebug() << "call setState 222";
     setState(Stopped);
 }
 
@@ -341,7 +341,7 @@ void MpvPlayer::onMpvApiEvents()
 
             int flag=1;
             mpv_set_property(m_mpvHandle, "pause", MPV_FORMAT_FLAG, &flag);
-            qDebug() << "call setState 555";
+//            qDebug() << "call setState 555";
             setState(Paused);
 
             //获取音频时长
@@ -368,7 +368,7 @@ void MpvPlayer::onMpvApiEvents()
         }
         case MPV_EVENT_UNPAUSE:
         {
-            qDebug() << "call setState 666";
+//            qDebug() << "call setState 666";
             setState(Playing);
             setMpvVolumeProperty(globalInstance->preferences()->m_volume);
             break;

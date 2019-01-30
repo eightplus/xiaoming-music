@@ -25,6 +25,7 @@
 
 class Preferences;
 class AnalysiserModule;
+class LyricModule;
 
 #define globalInstance (Global::instance())
 
@@ -66,6 +67,7 @@ public:
 
     Preferences *preferences() const { return m_preferences; }
     AnalysiserModule *analysiserModule() { return m_analysiserModule; }
+    LyricModule *lyricModule() { return m_lyricModule; }
 
     void initSizeFactor();
     void initMusicFileType();
@@ -79,6 +81,9 @@ private:
     Preferences *m_preferences = nullptr;
     AnalysiserModule *m_analysiserModule = nullptr;
     QThread *m_analysisThread = nullptr;
+
+    LyricModule *m_lyricModule = nullptr;
+
     QString m_sizeFactor[SizeInvalid];
     QStringList m_audioSuffixs;
     QStringList m_audioiSuffixsDescription;

@@ -17,42 +17,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef LYRICMODULE_H
+#define LYRICMODULE_H
 
-#include <QMainWindow>
-
+#include "utils.h"
 #include "musicmeta.h"
 
-class QPushButton;
-class QLabel;
-class MpvPlayer;
+#include <QObject>
 
-class MainWindow : public QMainWindow
+class LyricBaseWorker;
+
+class LyricModule : public QObject
 {
     Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit LyricModule(QObject *parent = 0);
+    ~LyricModule();
 
-    void initPlayer();
-    void initAnalysiserModule();
-    void initLyricModule();
-    void onMusicLoadSuccess();
+signals:
+    void albumCoverSaveFinished(const QByteArray &coverData);
 
 public slots:
-    void onAlbumCoverSaveFinished(const QByteArray &coverData);
+    void startLoadLyric(const MusicMeta &meta);
+    void addLyricTask(const MusicMeta &meta);
+    void doTask();
+    void onLyricSaveFinished(const QString &hash, const MusicMeta &meta, QString lyricContext);
+    void saveLyricContext(const MusicMeta &meta, const QString &content);
 
 private:
-    QWidget *m_centralWidget = nullptr;
-    QPushButton *m_playBtn = nullptr;
-    QPushButton *m_stopBtn = nullptr;
-    QPushButton *m_prevBtn = nullptr;
-    QPushButton *m_nextBtn = nullptr;
-    MpvPlayer *m_mpvPlayer = nullptr;
-    QLabel *m_ablumLabel = nullptr;
+    QList<MusicMeta> m_lyricsTaskList;
+    QList<LyricBaseWorker *> m_lyricWorkers;
+    QStringList m_lyricsList;
+    MusicMeta m_workingMeta;
     MusicMeta m_currentMeta;
+    QString m_currentFileHash;
 };
 
-#endif // MAINWINDOW_H
+#endif // LYRICMODULE_H

@@ -44,9 +44,8 @@ void AnalysiserModule::initMusicAnalysiser()
     m_analysiser->moveToThread(thread());
 }
 
-void AnalysiserModule::analysisMusicFile(const QFileInfo &fileInfo)
+void AnalysiserModule::analysisMusicFile(const QFileInfo &fileInfo, MusicMeta &meta)
 {
-    MusicMeta meta;
     meta.fileName = fileInfo.fileName();
     meta.filePath = fileInfo.absoluteFilePath();
     meta.size = fileInfo.size();
@@ -58,7 +57,7 @@ void AnalysiserModule::analysisMusicFile(const QFileInfo &fileInfo)
     if(meta.duration < 0) {
         meta.duration = 0;
     }
-    meta.timeDuration = Utils::msecondToSecondString(meta.duration);
+    meta.timeDuration = Utils::msecondCovertToSecondStr(meta.duration);
 
     qDebug() << "AnalysiserModule Start----------------------";
     qDebug() << "The fileName=" << meta.fileName;
@@ -66,9 +65,9 @@ void AnalysiserModule::analysisMusicFile(const QFileInfo &fileInfo)
     qDebug() << "The album=" << meta.album;
     qDebug() << "The artist=" << meta.artist;
     qDebug() << "The bitRate=" << meta.bitRate;
-    qDebug() << "The dateAdded=" << Utils::dateTimeToString(meta.dateAdded);
-    qDebug() << "The dateModified=" << Utils::dateTimeToString(meta.dateModified);
-    qDebug() << "The dateLastPlayed=" << Utils::dateTimeToString(meta.dateLastPlayed);
+    qDebug() << "The dateAdded=" << Utils::dateTimeCovertToStr(meta.dateAdded);
+    qDebug() << "The dateModified=" << Utils::dateTimeCovertToStr(meta.dateModified);
+    qDebug() << "The dateLastPlayed=" << Utils::dateTimeCovertToStr(meta.dateLastPlayed);
     qDebug() << "The fileType=" << meta.fileType;
     qDebug() << "The duration=" << meta.duration;
     qDebug() << "The timeDuration=" << meta.timeDuration;

@@ -21,6 +21,7 @@
 #include "preferences.h"
 #include "mainwindow.h"
 #include "analysisermodule.h"
+#include "lyricmodule.h"
 
 #include <QThread>
 #include <QDebug>
@@ -30,10 +31,9 @@ Global *Global::m_instance = nullptr;
 Global::Global(QObject *parent) :
     QObject(parent),
   m_audioSuffixs(QStringList()),
-  m_audioiSuffixsDescription(QStringList())
+  m_audioiSuffixsDescription(QStringList()),
+  m_lyricModule(new LyricModule(this))
 {
-    qDebug() << "Global.....";
-
     initSizeFactor();
     initMusicFileType();
 
@@ -44,11 +44,11 @@ Global::Global(QObject *parent) :
     m_analysisThread = new QThread(this);
     m_analysiserModule->moveToThread(m_analysisThread);
     m_analysisThread->start();
+
 }
 
 Global::~Global()
 {
-    qDebug() << "~Global.....";
     delete m_preferences;
     m_preferences = 0;
 

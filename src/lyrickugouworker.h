@@ -17,19 +17,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _UTILS_H_
-#define _UTILS_H_
+#ifndef LYRICKUGOUWORKER_H
+#define LYRICKUGOUWORKER_H
 
-#include <QString>
-#include <QDateTime>
+#include "lyricbaseworker.h"
 
-class Utils
+class LyricKugouWorker : public LyricBaseWorker
 {
+    Q_OBJECT
+
 public:
-    static QString dateTimeCovertToStr(const QDateTime &dateTime);
-    static QString msecondCovertToSecondStr(const qint64 &msecond);
-    static QString makePathIsValid(const QString &path);
-    static bool saveLyricFile(const QString &filePath, const QString &content);
+    explicit LyricKugouWorker(QObject *parent = 0);
+    ~LyricKugouWorker();
+
+    void analysisKugouSearchData(const QString &hashId, CategoryState state, const QByteArray &replyCache);
+    void analysisKugouLyricOrCoverData(const QString &hashId, CategoryState state, const QByteArray &replyCache);
+
+protected:
+    void searchLyricAndCover(const QString &hashId, const MusicMeta &meta) Q_DECL_OVERRIDE;
+    void analysisData(const QString &hashId, CategoryState state, const QByteArray &replyCache) Q_DECL_OVERRIDE;
 };
 
-#endif // _UTILS_H_
+#endif // LYRICKUGOUWORKER_H
